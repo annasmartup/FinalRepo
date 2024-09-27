@@ -1,0 +1,104 @@
+  268  cd FinalWork
+  269  ll
+# Создание гит-репозитория
+  270  git init
+# Подключение его к удаленному репозиторию на GitHub
+  271  git remote add origin https://github.com/annasmartup/FinalWork.git
+  272  git config --global --add safe.directory /media/sf_shared/FinalWork
+  273  git remote add origin https://github.com/annasmartup/FinalWork.git
+
+# Пункт 1
+# Создание файла с домшними питомцами
+  274  cat > pet_animals.txt
+dogs
+cats
+hamsters
+# Создание файла с вьючными животными
+  275  cat > pack_animals.txt
+horses
+camels
+donkeys
+# Объединение файлов
+  276  cat pet_animals.txt pack_animals.txt > human_friens.txt
+# Просмотр содержимого файла
+  280  cat human_friens.txt
+dogs
+cats
+hamsters
+horses
+camels
+donkeys
+# Переименование файла
+  281  mv human_friens.txt human_friends.txt
+
+# Пункт 2
+# Создание директории animals
+  282  mkdir animals
+# Перемещение файла в директорию animals
+  283  mv human_friends.txt animals/
+# Файл на месте
+  284  ll
+  285  cd animals
+  286  ll
+
+# Пункт 3
+# Долгая попытка подключения репозитория MySQL  в связи с тем, что у меня последняя версия Ubuntu.
+# В основном дальше магия и молитвы
+  287  sudo apt update
+  288  sudo apt install software-properties-common
+  289  sudo apt update
+  291  sudo add-apt-repository 'deb http://repo.mysql.com/apt/ubuntu/ lunar mysql-8.0'
+  292  sudo apt update
+  294  sudo apt install mysql-server
+  295  cat /etc/apt/sources.list
+  296  cat /etc/apt/sources.list
+  297  sudo apt remove --purge mysql-client-8.0 mysql-client-core-8.0 mysql-common mysql-server-8.0 mysql-server-core-8.0
+  298  sudo rm -rf /etc/mysql
+  299  dpkg -l | grep mysql
+  311  sudo apt update
+  312  wget https://dev.mysql.com/get/mysql-apt-config_0.8.22-1_all.deb
+  313  sudo dpkg -i mysql-apt-config_0.8.22-1_all.deb
+  315  docker run --name mysql-container -e wget https://dev.mysql.com/get/mysql-apt-config_0.8.22-1_all.deb
+  316  wget https://dev.mysql.com/get/mysql-apt-config_0.8.22-1_all.deb
+  317  sudo dpkg -i mysql-apt-config_0.8.22-1_all.deb
+  318  sudo apt update
+  319  sudo apt install mysql-server
+  320  sudo nano /etc/apt/sources.list.d/mysql.list
+  321  sudo apt update
+  322  sudo nano /etc/apt/sources.list.d/archive_uri-http_repo_mysql_com_apt_ubuntu_-noble.list
+  323  sudo nano /etc/apt/sources.list.d/mysql.list
+  324  sudo apt update
+  325  sudo nano /etc/apt/sources.list.d/archive_uri-http_repo_mysql_com_apt_ubuntu_-noble.list
+  326  sudo nano /etc/apt/sources.list.d/mysql.list
+  327  sudo apt update
+  328  sudo apt install mysql-server
+  329  sudo add-apt-repository universe
+  330  sudo nano /etc/apt/sources.list.d/mysql.list
+  331  sudo nano /etc/apt/sources.list.d/archive_uri-http_repo_mysql_com_apt_ubuntu_-noble.list
+  332  sudo apt update
+  333  sudo apt install mysql-server
+  334  sudo apt --fix-broken install
+  335  mysql --version
+
+# Найден удачный путь установки SQL
+  336  sudo apt install mysql-client-core-8.0
+  337  mysql --version
+  338  sudo apt install mysql-server
+  339  sudo systemctl status mysql
+  340  echo "deb http://archive.ubuntu.com/ubuntu focal main universe" | sudo tee -a /etc/apt/sources.list
+  341  sudo apt update
+  342  sudo apt install libssl1.1 libaio1
+  343  sudo apt install mysql-server
+  344  sudo systemctl status mysql
+  346  sudo mysql
+
+# Пункт 4
+# Устанавливаем deb пакетб проверяем его наличие, удаляем, проверяем его отсутствие
+  347  sudo apt-get install htop
+  348  dpkg -l | grep htop
+  350  sudo dpkg -P htop
+  351  dpkg -l | grep htop
+
+# Пункт 5
+# Выкладываем историю команд и сохраняем в файл history_covvands.txt
+  352  history > history_commands.txt && nano history_commands.txt
