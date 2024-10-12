@@ -1,0 +1,159 @@
+sudo mysql
+
+# Создаем базу данных "Друзья человека"
+
+CREATE DATABASE Human_friends;
+
+# Создаем таблицы
+
+CREATE TABLE dogs (
+	id INT AUTO_INCREMENT PRIMARY KEY,
+	name VARCHAR(50),
+	birthdate DATE,
+	color VARCHAR(50),
+	breed VARCHAR(50),
+	commands VARCHAR(255)
+);
+CREATE TABLE cats (
+	id INT AUTO_INCREMENT PRIMARY KEY,
+	name VARCHAR(50),
+	birthdate DATE,
+	color VARCHAR(50),
+	breed VARCHAR(50),
+	commands VARCHAR(255)
+);
+CREATE TABLE hamsters (
+	id INT AUTO_INCREMENT PRIMARY KEY,
+	name VARCHAR(50),
+	birthdate DATE,
+	color VARCHAR(50),
+	commands VARCHAR(255)
+);
+CREATE TABLE horses (
+	id INT AUTO_INCREMENT PRIMARY KEY,
+	name VARCHAR(50),
+	birthdate DATE,
+	color VARCHAR(50),
+	capacityKG INT,
+	commands VARCHAR(255)
+);
+CREATE TABLE camels (
+	id INT AUTO_INCREMENT PRIMARY KEY,
+	name VARCHAR(50),
+	birthdate DATE,
+	color VARCHAR(50),
+	capacityKG INT,
+	commands VARCHAR(255)
+);
+CREATE TABLE donkeys (
+	id INT AUTO_INCREMENT PRIMARY KEY,
+	name VARCHAR(50),
+	birthdate DATE,
+	color VARCHAR(50),
+	capacityKG INT,
+	commands VARCHAR(255)
+);
+
+# Заполняем таблицы
+
+INSERT INTO dogs (name, birthdate, color, breed, commands) VALUES
+('Bobik', '2018-03-15', 'Black', 'Shepherd', 'Sit, Lie down'),
+('Sharik', '2023-07-01', 'White', 'Spaniel', 'Come here'),
+('Rex', '2020-02-10', 'Brown', 'Bulldog', 'Come to me'),
+('Tuzik', '2021-11-25', 'Gray', 'Dalmatian', 'Stay, Lie down');
+
+INSERT INTO cats (name, birthdate, color, breed, commands) VALUES
+('Murka', '2017-05-20', 'Gray', 'Persian', 'Meow, Cat'),
+('Barsik', '2023-01-15', 'Black', 'Siamese', 'Where are you?'),
+('Snezok', '2021-09-10', 'White', 'Maine Coon', 'Jump'),
+('Kotyara', '2020-06-30', 'Ginger', 'British', 'Where are you?');
+
+INSERT INTO hamsters (name, birthdate, color, commands) VALUES
+('Homka', '2020-12-01', 'Brown', 'Run, Catch'),
+('Pukhlyash', '2023-06-15', 'White', 'Spin'),
+('Malysh', '2019-11-20', 'Gray', 'Sleep, Run'),
+('Laska', '2021-01-10', 'Black', 'Roll over');
+
+INSERT INTO horses (name, birthdate, color, capacityKG, commands) VALUES
+('Grom', '2016-04-22', 'Black', 600, 'Gallop, Trot'),
+('Mechta', '2022-05-10', 'Brown', 500, 'Canter'),
+('Tornado', '2015-07-30', 'Red', 650, 'Run, Stop'),
+('Veterok', '2023-02-14', 'Gray', 550, 'Gallop');
+
+INSERT INTO camels (name, birthdate, color, capacityKG, commands) VALUES
+('Camel 1', '2015-08-15', 'Beige', 700, 'Walk, Go'),
+('Camel 2', '2022-02-25', 'Brown', 650, 'Trot'),
+('Karavan', '2019-03-01', 'Light Brown', 750, 'Come here'),
+('Bagdad', '2023-06-18', 'Black', 680, 'Run');
+
+INSERT INTO donkeys (name, birthdate, color, capacityKG, commands) VALUES
+('Donkey 1', '2018-12-20', 'Gray', 300, 'Walk, Stand'),
+('Donkey 2', '2021-08-15', 'Brown', 320, 'Run, Jump'),
+('Donkey 3', '2019-05-10', 'Black', 310, 'Trot, Stop'),
+('Donkey 4', '2023-03-30', 'White', 290, 'Come here');
+
+# Удаляем верблюдов
+
+DELETE FROM camels;
+
+# Объединяем лошадей и ослов в одну таблицу
+
+CREATE TABLE horses_and_donkeys (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  name VARCHAR(50),
+  birthdate DATE,
+  color VARCHAR(50),
+  capacityKG INT,
+  commands VARCHAR(255),
+  animal_type ENUM('horse', 'donkey')
+);
+
+INSERT INTO horses_and_donkeys (name, birthdate, color, capacityKG, commands, animal_type)
+SELECT name, birthdate, color, capacityKG, commands, 'horse' FROM horses;
+
+INSERT INTO horses_and_donkeys (name, birthdate, color, capacityKG, commands, animal_type)
+SELECT name, birthdate, color, capacityKG, commands, 'donkey' FROM donkeys;
+
+# Создаем таблицу "Молодые животные"
+
+CREATE TABLE young_animals (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  name VARCHAR(50),
+  birthdate DATE,
+  age_months INT,
+  animal_type ENUM('dog', 'cat', 'hamster', 'horse', 'donkey')
+);
+
+INSERT INTO young_animals (name, birthdate, age_months, animal_type)
+SELECT name, birthdate, TIMESTAMPDIFF(MONTH, birthdate, CURDATE()), 'dog' FROM dogs WHERE birthdate BETWEEN DATE_SUB(CURDATE(), INTERVAL 3 YEAR) AND DATE_SUB(CURDATE(), INTERVAL 1 YEAR)
+UNION ALL
+SELECT name, birthdate, TIMESTAMPDIFF(MONTH, birthdate, CURDATE()), 'cat' FROM cats WHERE birthdate BETWEEN DATE_SUB(CURDATE(), INTERVAL 3 YEAR) AND DATE_SUB(CURDATE(), INTERVAL 1 YEAR)
+UNION ALL
+SELECT name, birthdate, TIMESTAMPDIFF(MONTH, birthdate, CURDATE()), 'hamster' FROM hamsters WHERE birthdate BETWEEN DATE_SUB(CURDATE(), INTERVAL 3 YEAR) AND DATE_SUB(CURDATE(), INTERVAL 1 YEAR)
+UNION ALL
+SELECT name, birthdate, TIMESTAMPDIFF(MONTH, birthdate, CURDATE()), 'horse' FROM horses WHERE birthdate BETWEEN DATE_SUB(CURDATE(), INTERVAL 3 YEAR) AND DATE_SUB(CURDATE(), INTERVAL 1 YEAR)
+UNION ALL
+SELECT name, birthdate, TIMESTAMPDIFF(MONTH, birthdate, CURDATE()), 'donkey' FROM donkeys WHERE birthdate BETWEEN DATE_SUB(CURDATE(), INTERVAL 3 YEAR) AND DATE_SUB(CURDATE(), INTERVAL 1 YEAR);
+
+CREATE TABLE all_animals (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  name VARCHAR(50),
+  birthdate DATE,
+  color VARCHAR(50),
+  capacityKG INT,
+  commands VARCHAR(255),
+  animal_type ENUM('dog', 'cat', 'hamster', 'horse', 'donkey')
+);
+
+INSERT INTO all_animals (name, birthdate, color, capacityKG, commands, animal_type)
+SELECT name, birthdate, color, NULL, commands, 'dog' FROM dogs
+UNION ALL
+SELECT name, birthdate, color, NULL, commands, 'cat' FROM cats
+UNION ALL
+SELECT name, birthdate, color, NULL, commands, 'hamster' FROM hamsters
+UNION ALL
+SELECT name, birthdate, color, capacityKG, commands, 'horse' FROM horses
+UNION ALL
+SELECT name, birthdate, color, capacityKG, commands, 'donkey' FROM donkeys;
+
+exit
